@@ -1,2 +1,2 @@
 # brutalchain
-A brutally simple blockchain
+A brutally simple blockchain.
