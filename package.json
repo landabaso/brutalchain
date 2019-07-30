@@ -1,0 +1,20 @@
+{
+  "name": "brutalchain",
+  "version": "1.0.0",
+  "description": "A brutally simple blockchain",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/landabaso/brutalchain.git"
+  },
+  "keywords": ["blockchain", "brutalchain", "bitcoin"],
+  "author": "José Luis Landabaso",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/landabaso/brutalchain/issues"
+  },
+  "homepage": "https://github.com/landabaso/brutalchain#readme"
+}
