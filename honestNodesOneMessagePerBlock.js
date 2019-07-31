@@ -8,7 +8,7 @@ const peerNodes = {};
 
 //Message types between nodes (inspired in Bitcoin)
 const MESSAGE_TYPE_INVENTORY = 'MESSAGE_TYPE_INVENTORY'; //anounce a new mined block and send the complete blockchain
-const MESSAGE_TYPE_ADDR = 'MESSAGE_TYPE_ADDR'; //announce a new address
+const MESSAGE_TYPE_ADDR = 'MESSAGE_TYPE_ADDR'; //announce the address of a new node
 
 const P2P_ADDR = 'localhost';
 const P2P_PORT = process.env.P2P_PORT || 10001;
@@ -41,12 +41,14 @@ const nodeServer = net
     //This function will be called when a remote node connects to this node.
     remoteNodeSocket.on('data', rawData => {
       const data = JSON.parse(rawData.toString());
-      console.log(`[${P2P_PORT}] Data received:`, data);
-      //See what kind of message the node gets:
+
+      //See what type of message the node gets:
       switch (data.type) {
-        case MESSAGE_TYPE_ADDR: //This is when we a new P2P address of a node
+        case MESSAGE_TYPE_ADDR: //This is when we a receive the P2P address of a node that is alive and is pinging the p2p network
           const peer = data.payload;
           const splittedAddress = splitSocketAddress(peer);
+
+          //Check if we already have this node in our pool of connected nodes
           if (typeof peerNodes[peer] === 'undefined') {
             //Add this peer to my list of peers
             peerNodes[peer] = { ...splittedAddress, timestamp: Date.now() };
@@ -59,6 +61,7 @@ const nodeServer = net
             peerNodes[peer].timestamp = Date.now();
           }
           break;
+
         case MESSAGE_TYPE_INVENTORY: //This is when we get a blokchain from another node
           const candidateBlockchain = data.payload;
           if (
