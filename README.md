@@ -54,7 +54,7 @@ ps aux | grep honestNodesOneMessagePerBlock
 kill [PUT HERE A PID]
 ```
 
-You can also launch more nodes and see how they are added to the P2P network. First choose an available port for the HTTP server so that a client (a wallet) can connect to produce (mine) a message (`HTTP_PORT`). Then set an available port for the P2P socket (`P2P_PORT`). Finally, you must seed the socket address of an existing node (if available) (`REMOTE_PEERS`).
+You can also launch more nodes and see how they are added to the P2P network. First choose an available `HTTP_PORT` port for the HTTP server so that a client (a wallet) can connect to produce (mine) a message. Then set an available `P2P_PORT` port for the P2P socket. Finally, you must seed the socket address `REMOTE_PEERS` of an existing node (if available).
 
 Note that `REMOTE_PEERS` can also be a comma separated list as in: `REMOTE_PEERS=localhost:10001,localhost:10002`.
 However, a single node address is fine as seed since addresses automatically propagate through the network.
