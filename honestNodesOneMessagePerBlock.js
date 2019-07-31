@@ -46,10 +46,10 @@ const nodeServer = net
       switch (data.type) {
         case MESSAGE_TYPE_ADDR: //This is when we a receive the P2P address of a node that is alive and is pinging the p2p network
           const peer = data.payload;
-          const splittedAddress = splitSocketAddress(peer);
 
           //Check if we already have this node in our pool of connected nodes
           if (typeof peerNodes[peer] === 'undefined') {
+            const splittedAddress = splitSocketAddress(peer);
             //Add this peer to my list of peers
             peerNodes[peer] = { ...splittedAddress, timestamp: Date.now() };
             //Send this peer (and others) my blockchain in case it's longer that their one
