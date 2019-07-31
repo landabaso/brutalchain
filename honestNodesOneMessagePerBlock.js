@@ -170,6 +170,14 @@ app.post('/produceBlock', (req, res) => {
   res.send(`${JSON.stringify(blockchain)}`);
 });
 app.get('/', (req, res) => {
-  res.send(`<pre>${JSON.stringify(blockchain, null, 2)}</pre>`);
+  res.send(`<!DOCTYPE html>
+  <head><meta http-equiv="refresh" content="1"/></head>
+  <h1>BrutalCoin explorer</h1>
+  <h2>Blockchain:</h2>
+  <body>
+    <pre>${JSON.stringify(blockchain, null, 2)}</pre>
+    <i>The browser will automatically refresh with new messages when available.</i>
+  </body>`);
+  
 });
 app.listen(HTTP_PORT);
