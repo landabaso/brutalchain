@@ -1,4 +1,4 @@
-# brutalchain
+# BrutalChain
 A brutally simple blockchain written in Javascript ES6.
 
 ## Motivation
@@ -31,23 +31,39 @@ Let's start by listing the limitations of this first approach:
 git clone https://github.com/landabaso/brutalchain.git
 cd brutalchain
 npm install
+```
 
-#This will create 3 nodes on your computer and send some messages on the Blockchain
+### How to run ir:
+
+This will create 3 nodes on your computer and send some messages on the Blockchain:
+```
 bash runHonestNodesOneMessagePerBlock.bash
-#You can send more messages by doing:
+```
+
+You can send more messages by doing:
+```
 curl -H "Content-type:application/json" --data '{"message" : "My new message"}' http://localhost:20003/produceBlock
-#You can also kill some of the clients and see how the list of peers on each node are atumatically updated
+```
+
+You can also kill some of the clients and see how the list of peers on each node are atumatically updated
+```
 ps aux | grep honestNodesOneMessagePerBlock
 kill [PUT HERE A PID]
-#You can launch more nodes and see how they are added to the P2P network
-#You must choose an available port for the HTTP server so that a client (a wallet) can connect to produce (mine) a message.
-#You must also set an available port for the P2P socket.
-#Finally, you must seed the socket address of an existing node (if available). REMOTE_PEERS can also be a list such as:REMOTE_PEERS=localhost:10001,localhost:10002. However, a single node is enough since the addresses are automatically propagated.
+```
+
+You can launch more nodes and see how they are added to the P2P network.
+First choose an available port for the HTTP server so that a client (a wallet) can connect to produce (mine) a message (`HTTP_PORT`).
+Then set an available port for the P2P socket (`P2P_PORT`).
+Finally, you must seed the socket address of an existing node (if available) (`REMOTE_PEERS`).
+Note that `REMOTE_PEERS` can also be a list separated with commas as in: `REMOTE_PEERS=localhost:10001,localhost:10002`.
+However, a single node address seed is enough since addresses are automatically propagated.
+Taking all together, this is how you could start a new node:
+```
 HTTP_PORT=20004 P2P_PORT=10004 REMOTE_PEERS=localhost:10001 npm run honestNodesOneMessagePerBlock
 ```
-You can also open a browser window to explore the network on only of the nodes. For example you can explore the blockchain by opening this URL `http://localhost:20001/`
+Finally you can also explore the network using your favourite web browser connecting to a node (for example you can open `http://localhost:20004/` using the example above).
 
 ## Second attempt:
 The second attempt includes a proof-of-work mechanism so that the network cannot be spammed.
-Work in progress.
+This is work in progress. Stay tunned.
 
