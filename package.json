@@ -2,9 +2,8 @@
   "name": "brutalchain",
   "version": "1.0.0",
   "description": "A brutally simple blockchain",
-  "main": "index.js",
   "scripts": {
-    "start": "node main.js"
+    "honestNodesOneMessagePerBlock": "node honestNodesOneMessagePerBlock.js"
   },
   "repository": {
     "type": "git",
