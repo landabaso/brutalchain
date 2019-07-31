@@ -102,12 +102,12 @@ function broadcastBlockchain() {
   }
 }
 
-//Anounce as new node to the P2P network
+//Anounce a new node to the P2P network
 function annouceNode(params) {
   const { address, port } = params;
   for (let index in peerNodes) {
+    //Do not announce a node to itself
     if (
-      //Do not announce a node to itself
       peerNodes[index].address !== address ||
       peerNodes[index].port !== port
     ) {
