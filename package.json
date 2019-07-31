@@ -10,11 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/landabaso/brutalchain.git"
   },
-  "keywords": ["blockchain", "brutalchain", "bitcoin"],
+  "keywords": [
+    "blockchain",
+    "brutalchain",
+    "bitcoin"
+  ],
   "author": "José Luis Landabaso",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/landabaso/brutalchain/issues"
   },
-  "homepage": "https://github.com/landabaso/brutalchain#readme"
+  "homepage": "https://github.com/landabaso/brutalchain#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
