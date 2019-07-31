@@ -169,4 +169,7 @@ app.post('/produceBlock', (req, res) => {
   }
   res.send(`${JSON.stringify(blockchain)}`);
 });
+app.get('/', (req, res) => {
+  res.send(`<pre>${JSON.stringify(blockchain, null, 2)}</pre>`);
+});
 app.listen(HTTP_PORT);
