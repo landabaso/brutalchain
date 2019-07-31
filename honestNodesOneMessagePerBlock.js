@@ -55,7 +55,7 @@ const nodeServer = net
             //Send this peer (and others) my blockchain in case it's longer that their one
             broadcastBlockchain();
             //Announce this peer to the rest of connected peers
-            annouceNode(splittedAddress);
+            announceNode(splittedAddress);
           } else {
             //Update the last time this node has been seen alive
             peerNodes[peer].timestamp = Date.now();
@@ -103,7 +103,7 @@ function broadcastBlockchain() {
 }
 
 //Anounce a new node to the P2P network
-function annouceNode(params) {
+function announceNode(params) {
   const { address, port } = params;
   for (let index in peerNodes) {
     //Do not announce a node to itself
@@ -128,14 +128,14 @@ function annouceNode(params) {
 }
 
 //Announce myself
-annouceNode({ address: P2P_ADDR, port: P2P_PORT });
+announceNode({ address: P2P_ADDR, port: P2P_PORT });
 //Send my blockchain
 broadcastBlockchain();
 
 //Keep announcing myself while I'm alive
 setInterval(() => {
   const now = Date.now();
-  annouceNode({ address: P2P_ADDR, port: P2P_PORT });
+  announceNode({ address: P2P_ADDR, port: P2P_PORT });
   console.log(
     `[${P2P_PORT}] List of up to date peers:`,
     Object.keys(peerNodes)
