@@ -12,7 +12,7 @@ Each attempt will include more functionalities so that the developer/student/afi
 
 Let's define a blockchain as a digital record of messages kept in a P2P network. The name comes from its structure, in which individual records, called blocks, are linked together in single list, called a chain.
 
-This first implementation attempt honors the minimum possible implementation of the definition above. 
+This first implementation attempt honors the minimum possible implementation of the definition above. I have decided to keep the code in a file (less than 200 lines) to show how easy to implement and compact it can be.
 
 ### Limitations of the first implementation
 
@@ -54,9 +54,9 @@ ps aux | grep honestNodesOneMessagePerBlock
 kill [PUT HERE A PID]
 ```
 
-You can also launch more nodes and see how they are added to the P2P network. First choose an available `HTTP_PORT` port for the HTTP server so that a client (a wallet) can connect to produce (mine) a message. Then set an available `P2P_PORT` port for the P2P socket. Finally, you must seed the socket address `REMOTE_PEERS` of an existing node (if available).
+You can also launch more nodes and see how they are added to the P2P network. First choose an available port `HTTP_PORT` for the HTTP server so that a client (a wallet) can connect to produce (mine) a message. Then set an available port `P2P_PORT` for the P2P socket. Finally, you must seed the socket address `REMOTE_PEERS` of an existing node (if available).
 
-Note that `REMOTE_PEERS` can also be a comma separated list as in: `REMOTE_PEERS=localhost:10001,localhost:10002`.
+Note that `REMOTE_PEERS` can also be a comma separated list of addresses as in: `REMOTE_PEERS=localhost:10001,localhost:10002`.
 However, a single node address is fine as seed since addresses automatically propagate through the network.
 
 Taking all together, this is how you could start a new node:
