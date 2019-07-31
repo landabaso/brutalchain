@@ -1,24 +1,23 @@
 const net = require('net'); //Provides the functionality to create a TCP server
-const express = require('express');
+const express = require('express'); //Provides the functionality to create an HTTP server
 
 let blockchain = [
   'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks'
 ];
+const peerNodes = {};
 
-//Message types between nodes (inspited on Bitcoin)
-const MESSAGE_TYPE_INVENTORY = 'MESSAGE_TYPE_INVENTORY'; //used to anounce a new mined block and send the complete blockchain
-const MESSAGE_TYPE_ADDR = 'MESSAGE_TYPE_ADDR'; //used to announce a new address
-const MESSAGE_TYPE_GETADDR = 'MESSAGE_TYPE_GETADDR'; //used to get online nodes addresses
+//Message types between nodes (inspired in Bitcoin)
+const MESSAGE_TYPE_INVENTORY = 'MESSAGE_TYPE_INVENTORY'; //anounce a new mined block and send the complete blockchain
+const MESSAGE_TYPE_ADDR = 'MESSAGE_TYPE_ADDR'; //announce a new address
 
 const P2P_ADDR = 'localhost';
 const P2P_PORT = process.env.P2P_PORT || 10001;
 const HTTP_PORT = process.env.HTTP_PORT || 20001;
 
-const peerNodes = {};
 const ANNOUNCE_IM_ALIVE_TIME = 5 * 1000;
 const DISCARD_NODE_AFTER_TIME = 10 * 1000;
 
-//Converts string localhost:10001 to object {address: localhost, port: 10001}
+//Converts string "localhost:10001" to object {address: localhost, port: 10001}
 function splitSocketAddress(socketAddress) {
   const parts = socketAddress.split(':');
   const port = parseInt(parts.pop());
@@ -26,6 +25,7 @@ function splitSocketAddress(socketAddress) {
   return { address, port };
 }
 
+//Initialize the pool of seed nodes
 if (typeof process.env.REMOTE_PEERS !== 'undefined') {
   const peers = process.env.REMOTE_PEERS.split(',');
   peers.map(
@@ -35,35 +35,39 @@ if (typeof process.env.REMOTE_PEERS !== 'undefined') {
 }
 
 console.log(`Starting node on ${P2P_ADDR}:${P2P_PORT}`);
+
 const nodeServer = net
   .createServer(remoteNodeSocket => {
-    //This function will be invoked when a remote node connects to this node.
-
+    //This function will be called when a remote node connects to this node.
     remoteNodeSocket.on('data', rawData => {
       const data = JSON.parse(rawData.toString());
       console.log(`[${P2P_PORT}] Data received:`, data);
+      //See what kind of message the node gets:
       switch (data.type) {
-        case MESSAGE_TYPE_ADDR:
+        case MESSAGE_TYPE_ADDR: //This is when we a new P2P address of a node
           const peer = data.payload;
           const splittedAddress = splitSocketAddress(peer);
           if (typeof peerNodes[peer] === 'undefined') {
             //Add this peer to my list of peers
             peerNodes[peer] = { ...splittedAddress, timestamp: Date.now() };
-            //Send this peer my blockchain in case it's longer that its one
+            //Send this peer (and others) my blockchain in case it's longer that their one
             broadcastBlockchain();
             //Announce this peer to the rest of connected peers
             annouceNode(splittedAddress);
           } else {
-            //Update its keepalive time
+            //Update the last time this node has been seen alive
             peerNodes[peer].timestamp = Date.now();
           }
           break;
-        case MESSAGE_TYPE_INVENTORY:
+        case MESSAGE_TYPE_INVENTORY: //This is when we get a blokchain from another node
           const candidateBlockchain = data.payload;
           if (
+            //Check if the new blockhain is longer
             candidateBlockchain.length > blockchain.length &&
+            //Check if they share the same genesis
             blockchain[0] === candidateBlockchain[0]
           ) {
+            //Replace it
             blockchain = candidateBlockchain;
           }
           break;
@@ -76,10 +80,6 @@ const nodeServer = net
 nodeServer.listen({ port: P2P_PORT });
 
 function broadcastBlockchain() {
-  console.log(
-    `[${P2P_PORT}] Broadcasting blockchain to nodes`,
-    Object.keys(peerNodes)
-  );
   for (let index in peerNodes) {
     console.log(
       `[${P2P_PORT}] Broadcasting blockchain to remote node: ${index}`
@@ -140,7 +140,7 @@ setInterval(() => {
   console.log(`[${P2P_PORT}] Current blockchain:`, blockchain);
 }, ANNOUNCE_IM_ALIVE_TIME);
 
-//Detect and remove disconnected nodes
+//Detect nodes that stopped pinging us and remove them
 setInterval(() => {
   const now = Date.now();
   for (let index in peerNodes) {
@@ -178,6 +178,5 @@ app.get('/', (req, res) => {
     <pre>${JSON.stringify(blockchain, null, 2)}</pre>
     <i>The browser will automatically refresh with new messages when available.</i>
   </body>`);
-  
 });
 app.listen(HTTP_PORT);
