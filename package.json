@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A brutally simple blockchain",
   "scripts": {
-    "honestNodesOneMessagePerBlock": "node honestNodesOneMessagePerBlock.js"
+    "honestNodesOneMessagePerBlock": "node 1-HonestNodesOneMessagePerBlock/main.js"
   },
   "repository": {
     "type": "git",

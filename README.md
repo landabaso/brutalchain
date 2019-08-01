@@ -50,7 +50,7 @@ curl -H "Content-type:application/json" --data '{"message" : "My new message"}' 
 
 Close some of the clients and see how the list of peers on each node are automatically updated:
 ```
-ps aux | grep honestNodesOneMessagePerBlock
+ps aux | grep 1-HonestNodesOneMessagePerBlock
 kill [PUT HERE A PID]
 ```
 
