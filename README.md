@@ -1,5 +1,5 @@
 # BrutalChain
-A brutally simple blockchain written in Javascript ES6.
+A brutally simple blockchain written in Javascript ES6 and Node.js.
 
 ## Motivation
 To develop a proof-of-work cryptocurrency in different steps with an educational purpose.
