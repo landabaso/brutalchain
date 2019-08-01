@@ -7,7 +7,7 @@ let blockchain = [
 const peerNodes = {};
 
 //Message types between nodes (inspired in Bitcoin)
-const MESSAGE_TYPE_INVENTORY = 'MESSAGE_TYPE_INVENTORY'; //anounce a new mined block and send the complete blockchain
+const MESSAGE_TYPE_INVENTORY = 'MESSAGE_TYPE_INVENTORY'; //announce a new mined block and send the complete blockchain
 const MESSAGE_TYPE_ADDR = 'MESSAGE_TYPE_ADDR'; //announce the address of a new node
 
 const P2P_ADDR = 'localhost';
@@ -100,7 +100,7 @@ function broadcastBlockchain() {
   }
 }
 
-//Anounce a new node to the P2P network
+//Announce a new node to the P2P network
 function announceNode({ address, port }) {
   for (let index in peerNodes) {
     //Do not announce a node to itself
