@@ -158,7 +158,7 @@ setInterval(() => {
   }
 }, DISCARD_NODE_AFTER_TIME / 2);
 
-//Create a web server so that the wallet can connect to using HTTP POST messages
+//Create a web server so that a wallet can be connected using HTTP POST messages
 const app = express();
 app.use(express.json());
 app.post('/produceBlock', (req, res) => {
@@ -170,16 +170,18 @@ app.post('/produceBlock', (req, res) => {
     );
     broadcastBlockchain();
   }
-  res.send(`${JSON.stringify(blockchain)}`);
+  res.send(JSON.stringify(blockchain) + "\n");
 });
 app.get('/', (req, res) => {
   res.send(`<!DOCTYPE html>
-  <head><meta http-equiv="refresh" content="1"/></head>
-  <h1>BrutalCoin explorer</h1>
-  <h2>Blockchain:</h2>
+<html lang="en">
+  <head><title>BrutalCoin</title><meta http-equiv="refresh" content="1"/></head>
   <body>
+    <h1>BrutalCoin explorer</h1><h2>Blockchain:</h2>
     <pre>${JSON.stringify(blockchain, null, 2)}</pre>
     <i>The browser will automatically refresh with new messages when available.</i>
-  </body>`);
+  </body>
+</html>
+    `);
 });
 app.listen(HTTP_PORT);
