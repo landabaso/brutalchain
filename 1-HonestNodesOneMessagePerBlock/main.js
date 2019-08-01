@@ -41,12 +41,10 @@ const nodeServer = net
     //This function will be called when a remote node connects to this node.
     remoteNodeSocket.on('data', rawData => {
       const data = JSON.parse(rawData.toString());
-
       //See what type of message the node gets:
       switch (data.type) {
-        case MESSAGE_TYPE_ADDR: //This is when we a receive the P2P address of a node that is alive and is pinging the p2p network
+        case MESSAGE_TYPE_ADDR: //Receive the address of a node requesting to join the network
           const peer = data.payload;
-
           //Check if we already have this node in our pool of connected nodes
           if (typeof peerNodes[peer] === 'undefined') {
             const splittedAddress = splitSocketAddress(peer);
@@ -62,7 +60,7 @@ const nodeServer = net
           }
           break;
 
-        case MESSAGE_TYPE_INVENTORY: //This is when we get a blokchain from another node
+        case MESSAGE_TYPE_INVENTORY: //Receive a blockchain from another node
           const candidateBlockchain = data.payload;
           if (
             //Check if the new blockhain is longer
@@ -103,8 +101,7 @@ function broadcastBlockchain() {
 }
 
 //Anounce a new node to the P2P network
-function announceNode(params) {
-  const { address, port } = params;
+function announceNode({ address, port }) {
   for (let index in peerNodes) {
     //Do not announce a node to itself
     if (
@@ -170,8 +167,9 @@ app.post('/produceBlock', (req, res) => {
     );
     broadcastBlockchain();
   }
-  res.send(JSON.stringify(blockchain) + "\n");
+  res.send(JSON.stringify(blockchain) + '\n');
 });
+
 app.get('/', (req, res) => {
   res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -184,4 +182,5 @@ app.get('/', (req, res) => {
 </html>
     `);
 });
+
 app.listen(HTTP_PORT);
