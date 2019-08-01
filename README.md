@@ -40,10 +40,10 @@ npm install
 
 Create 3 nodes on your computer and send some messages to the blockchain:
 ```
-bash runHonestNodesOneMessagePerBlock.bash
+npm run testHonestNodesOneMessagePerBlock
 ```
 
-Some messages are automatically sent to the blockchain when running `runHonestNodesOneMessagePerBlock.bash`. You can also send your own messages anytime:
+Some messages are automatically sent to the blockchain when running `npm run testHonestNodesOneMessagePerBlock`. You can also send your own messages anytime:
 ```
 curl -H "Content-type:application/json" --data '{"message" : "My new message"}' http://localhost:20003/produceBlock
 ```

@@ -1,9 +1,10 @@
 {
   "name": "brutalchain",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A brutally simple blockchain",
   "scripts": {
-    "honestNodesOneMessagePerBlock": "node 1-HonestNodesOneMessagePerBlock/main.js"
+    "honestNodesOneMessagePerBlock": "node ./1-HonestNodesOneMessagePerBlock/main.js",
+    "testHonestNodesOneMessagePerBlock": "bash ./1-HonestNodesOneMessagePerBlock/test.bash"
   },
   "repository": {
     "type": "git",
